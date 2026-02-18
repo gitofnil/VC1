@@ -31,6 +31,18 @@ mitjana = np.mean(matrix_train, axis = 0) # axis = 0 mira el mateix pixel a tote
 desviacio = np.std(matrix_train, axis = 0)
     
 
-for i in matrix_train.size()
+llindar = 0
+img_resultat = []
 
-if(mitjana)
+for img in imatges_test:
+
+    deteccio = np.zeros(mitjana.shape, dtype=np.uint8) #matriu auxiliar per veure les diferencies
+    diferencia = np.abs(img - mitjana) > llindar #mirem quins pixels varien
+
+    deteccio[diferencia] = 1 #cambia els valors on el pixel sigui diferent
+    
+    if img == imatges_test:
+        img_resultat[deteccio]
+
+
+
