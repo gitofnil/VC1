@@ -39,18 +39,14 @@ sigma = np.std(train_images, axis=0)
 
 height, width = mu.shape
 
-# ==========================================
-# LA MÀGIA: Crear un ROI geomètric manual
-# ==========================================
+
 print("3. Creant màscara geomètrica per tapar els arbres...")
 roi_bin = np.zeros((height, width), dtype=np.uint8)
 # Coordenades d'un polígon que només cobreix l'asfalt de la carretera
 pts = np.array([[150, 0], [width, 0], [width, height], [20, height]], np.int32)
 cv2.fillPoly(roi_bin, [pts], 1)
 
-# ==========================================
-# Processament i Vídeo
-# ==========================================
+
 print("4. Iniciant segmentació i creació del vídeo...")
 fourcc = cv2.VideoWriter_fourcc(*'mp4v')
 out_video = cv2.VideoWriter('output_detections.mp4', fourcc, 15.0, (width, height), isColor=False)
