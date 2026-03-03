@@ -33,16 +33,31 @@ for i in range(start_idx, end_idx + 1):
 train_images = np.array(train_images, dtype=np.float32)
 test_images = np.array(test_images, dtype=np.float32)
 
+# ==========================================
+# Tasca 2: Calcular i VISUALITZAR mitjana i desviació
+# ==========================================
 print("2. Calculant fons (µ i σ)...")
 mu = np.mean(train_images, axis=0)
 sigma = np.std(train_images, axis=0)
 
 height, width = mu.shape
 
+# --- AQUEST ÉS EL BLOC QUE FALTAVA ---
+cv2.imshow("Resultat Tasca 2: Mitjana (Fons Modelat)", mu.astype(np.uint8))
 
+sigma_visual = cv2.normalize(sigma, None, 0, 255, cv2.NORM_MINMAX).astype(np.uint8)
+cv2.imshow("Resultat Tasca 2: Desviacio Estandard", sigma_visual)
+
+print("--> Prem qualsevol tecla a les finestres de la imatge per continuar i veure el video...")
+cv2.waitKey(0) # Pausa l'execució fins que premis una tecla
+cv2.destroyAllWindows()
+# ------------------------------------
+
+# ==========================================
+# LA MÀGIA: Crear un ROI geomètric manual
+# ==========================================
 print("3. Creant màscara geomètrica per tapar els arbres...")
 roi_bin = np.zeros((height, width), dtype=np.uint8)
-# Coordenades d'un polígon que només cobreix l'asfalt de la carretera
 pts = np.array([[150, 0], [width, 0], [width, height], [20, height]], np.int32)
 cv2.fillPoly(roi_bin, [pts], 1)
 
@@ -54,7 +69,6 @@ out_video = cv2.VideoWriter('output_detections.mp4', fourcc, 15.0, (width, heigh
 alpha = 2.5 
 beta = 10.0  
 
-# Morfologia: Obrim una mica per treure soroll, tanquem molt per compactar el cotxe
 kernel_open = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
 kernel_close = cv2.getStructuringElement(cv2.MORPH_RECT, (11, 11)) 
 
